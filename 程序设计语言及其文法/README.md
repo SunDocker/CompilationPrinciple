@@ -139,3 +139,40 @@
 <img src="README.assets/image-20220902154355577.png" alt="image-20220902154355577" style="zoom:67%;" />
 
 > <img src="README.assets/image-20220902154405005.png" alt="image-20220902154405005" style="zoom:80%;" />
+
+## 文法的分类
+
+### 0型文法
+
+<img src="README.assets/image-20220902221231069.png" alt="image-20220902221231069" style="zoom:67%;" />
+
+### 1型文法
+
+<img src="README.assets/image-20220902221344606.png" alt="image-20220902221344606" style="zoom:67%;" />
+
+> <img src="README.assets/image-20220902221353418.png" alt="image-20220902221353418" style="zoom:80%;" />
+>
+> 都要求$\alpha$中至少包含一个非终结符
+
+### 2型文法
+
+<img src="README.assets/image-20220902225359083.png" alt="image-20220902225359083" style="zoom:80%;" />
+
+> <img src="README.assets/image-20220902225408580.png" alt="image-20220902225408580" style="zoom:80%;" />
+
+<img src="README.assets/image-20220902225419823.png" alt="image-20220902225419823" style="zoom:67%;" />
+
+### 3型文法
+
+<img src="README.assets/image-20220902230545125.png" alt="image-20220902230545125" style="zoom:67%;" />
+
+> <img src="README.assets/image-20220902230620818.png" alt="image-20220902230620818" style="zoom:67%;" />
+>
+> 用两种文法生成的标识符，当然还可以写一个左线性文法
+
+<img src="README.assets/image-20220902230939396.png" alt="image-20220902230939396" style="zoom:67%;" />
+
+### 四种文法之间的关系
+
+<img src="README.assets/image-20220902230958751.png" alt="image-20220902230958751" style="zoom:67%;" />
+

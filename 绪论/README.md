@@ -187,3 +187,5 @@ token的构成：
 
 ## 6 中间代码生成及编译
 
+> <img src="README.assets/image-20220901141133662.png" alt="image-20220901141133662" style="zoom:67%;" />
+

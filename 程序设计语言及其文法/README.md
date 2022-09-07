@@ -176,3 +176,40 @@
 
 <img src="README.assets/image-20220902230958751.png" alt="image-20220902230958751" style="zoom:67%;" />
 
+## CFG的分析树
+
+> 正则文法可以用来描述程序设计语言的大多数单词，但其生成能力有限，几乎描述不了句子构造，而上下文无关文法可以描述大部分程序构造，应用最广
+
+### 1 分析树的定义
+
+<img src="README.assets/image-20220907163744844.png" alt="image-20220907163744844" style="zoom:67%;" />
+
+### 2 分析树与推导
+
+<img src="README.assets/image-20220907163906373.png" alt="image-20220907163906373" style="zoom:67%;" />
+
+### 3 （句型的）短语
+
+<img src="README.assets/image-20220907164120975.png" alt="image-20220907164120975" style="zoom:67%;" />
+
+> 注意，在这里，子树的高度至少是二
+
+### 4 二义性文法
+
+<img src="README.assets/image-20220907164337105.png" alt="image-20220907164337105" style="zoom:67%;" />
+
+> <img src="README.assets/image-20220907164423106.png" alt="image-20220907164423106" style="zoom:67%;" />
+
+---
+
+消除二义性：使用消歧规则
+
+举例：
+
+<img src="README.assets/image-20220907164456947.png" alt="image-20220907164456947" style="zoom:50%;" />
+
+---
+
+二义性文法的判定：
+
+<img src="README.assets/image-20220907164526302.png" alt="image-20220907164526302" style="zoom:67%;" />

@@ -142,9 +142,125 @@
 
 > <img src="README.assets/image-20220908152108491.png" alt="image-20220908152108491" style="zoom:80%;" />
 
-### 2 FIRST集和FOLLOW集的计算
+### 2 FIRST集、FOLLOW集、SELECT集的计算
+
+#### 2.1 文法符号的FIRST集
+
+FIRST集的定义：
+
+<img src="README.assets/image-20220922140624568.png" alt="image-20220922140624568" style="zoom:67%;" />
+
+> 举例：
+>
+> <img src="README.assets/image-20220922140642461.png" alt="image-20220922140642461" style="zoom:67%;" />
+
+算法：
+
+<img src="README.assets/image-20220922140825904.png" alt="image-20220922140825904" style="zoom:67%;" />
+
+#### 2.2 符号串的FIRST集
+
+算法：
+
+<img src="README.assets/image-20220922140904721.png" alt="image-20220922140904721" style="zoom:60%;" />
+
+#### 2.3 非终结符的FOLLOW集
+
+定义：
+
+<img src="README.assets/image-20220922140942695.png" alt="image-20220922140942695" style="zoom:67%;" />
+
+> 举例：
+>
+> <img src="README.assets/image-20220922141404125.png" alt="image-20220922141404125" style="zoom:67%;" />
+>
+> 从中可以看出，一个非终结符的FOLLOW集可能依赖于另一个非终结符的FOLLOW集，所以要进行多轮计算，直到某一轮计算中，FOLLOW集不再更新
+
+算法：
+
+<img src="README.assets/image-20220922141735766.png" alt="image-20220922141735766" style="zoom:67%;" />
+
+#### 2.4 由FIRST集和FOLLOW集计算SELECT集
+
+<img src="README.assets/image-20220922142506197.png" alt="image-20220922142506197" style="zoom:67%;" />
+
+- 同一非终结符各个**产生式**的**可选集**互不相交
+
+LL(1)文法可以构造预测分析表：
+
+<img src="README.assets/image-20220922142620654.png" alt="image-20220922142620654" style="zoom:67%;" />
+
+### 3 递归的预测分析算法
+
+<img src="README.assets/image-20220922151018261.png" alt="image-20220922151018261" style="zoom:67%;" />
+
+举例：
+
+<img src="README.assets/image-20220922151033547.png" alt="image-20220922151033547" style="zoom:67%;" />
+
+<img src="README.assets/image-20220922151043361.png" alt="image-20220922151043361" style="zoom:67%;" />
+
+<img src="README.assets/image-20220922151053106.png" alt="image-20220922151053106" style="zoom:67%;" />
+
+<img src="README.assets/image-20220922151101171.png" alt="image-20220922151101171" style="zoom:67%;" />
+
+<img src="README.assets/image-20220922151109633.png" alt="image-20220922151109633" style="zoom:67%;" />
+
+<img src="README.assets/image-20220922151118904.png" alt="image-20220922151118904" style="zoom:67%;" />
+
+<img src="README.assets/image-20220922151127247.png" alt="image-20220922151127247" style="zoom:67%;" />
+
+### 4 递归的预测分析算法
+
+<img src="README.assets/image-20220922152309569.png" alt="image-20220922152309569" style="zoom:67%;" />
+
+> 下推自动机相当于给有穷自动机增加了记忆功能。图中的例子L，有穷自动机是无法识别的，因为n没有限制，可以”无穷“个，这是矛盾的
+
+举例：
+
+> 初始时栈底为语言结束符，栈顶为文法开始符号
+
+- 对比输入指针符号与栈顶符号
+  - 若栈顶符号为终结符
+    - 二者相等，弹栈，输入指针后移
+    - 二者不相等，报错
+  - 若栈顶符号为非终结符，则根据SELECT集选择产生式，根据产生式弹栈并入栈
+
+<img src="README.assets/image-20220922153334605.png" alt="image-20220922153334605" style="zoom:67%;" />
+
+<img src="README.assets/image-20220922153457331.png" alt="image-20220922153457331" style="zoom:67%;" />
+
+> <img src="README.assets/image-20220922153533394.png" alt="image-20220922153533394" style="zoom:67%;" />
+
+### 5 错误处理
+
+#### 5.1 错误检测
+
+<img src="README.assets/image-20220922162839893.png" alt="image-20220922162839893" style="zoom:67%;" />
+
+#### 5.2 错误恢复
+
+<img src="README.assets/image-20220922163108565.png" alt="image-20220922163108565" style="zoom:67%;" />
+
+> 意思就是，出错的时候，可以直接把输入符号扔掉，直到不出错，但这样扔有点太笨了，如果这个输入符在当前非终结符的后继符号集中，可以考虑把当前非终结符扔掉，这样也可以继续往下识别
+
+举例：
+
+- 同步词法单元的设置：
+
+  <img src="README.assets/image-20220922163237356.png" alt="image-20220922163237356" style="zoom:67%;" />
+
+- <img src="README.assets/image-20220922163426663.png" alt="image-20220922163426663" style="zoom:67%;" />
+
+- 分析表如何工作：
+
+  <img src="README.assets/image-20220922163841834.png" alt="image-20220922163841834" style="zoom:67%;" />
 
 
+
+### 6 总结
+
+<img src="README.assets/image-20220922153916865.png" alt="image-20220922153916865" style="zoom:67%;" />
 
 ## 自底向上分析
 

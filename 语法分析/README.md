@@ -102,6 +102,8 @@
 
 <img src="README.assets/image-20220908145620387.png" alt="image-20220908145620387" style="zoom:80%;" />
 
+> 由此观之，候选式指的是**右部**
+
 > <img src="README.assets/image-20220908145627510.png" alt="image-20220908145627510" style="zoom:80%;" />
 
 #### 1.2 空产生式的使用
@@ -126,6 +128,8 @@
 
 <img src="README.assets/image-20220908151118249.png" alt="image-20220908151118249" style="zoom:80%;" />
 
+> 这里说成“相同左部”，其实和S_文法那里说的“同一非终结符”是一样的约束前提
+
 #### 1.6 串首终结符集
 
 <img src="README.assets/image-20220908151502035.png" alt="image-20220908151502035" style="zoom:80%;" />
@@ -134,15 +138,21 @@
 
 <img src="README.assets/image-20220908151517715.png" alt="image-20220908151517715" style="zoom:80%;" />
 
+> 什么时候能用$A\rarr\alpha$来推导？用了它之后能在最左边产生输入符，也就是输入符在$\alpha$的串首终结符集中
+
 #### 1.7 LL(1)文法
 
 <img src="README.assets/image-20220908152044010.png" alt="image-20220908152044010" style="zoom:80%;" />
+
+> 所谓任意两个，就是对所有相同左部产生式的约束；总之就是让能推导出的所有句型的首终结符都不相同；下面那两条的意思就是**可选集互不相交**，只不过当出现了推导出空的情况时，可以将“可选集互不相交”化简成这个样子
 
 <img src="README.assets/image-20220908152053249.png" alt="image-20220908152053249" style="zoom:80%;" />
 
 > <img src="README.assets/image-20220908152108491.png" alt="image-20220908152108491" style="zoom:80%;" />
 
 ### 2 FIRST集和FOLLOW集的计算
+
+
 
 
 

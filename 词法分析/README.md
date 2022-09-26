@@ -150,6 +150,12 @@
 
 ### 1 识别标识符的DFA
 
+```java
+List<String> keywords =  ["int", "return"].asList()
+```
+
+
+
 <img src="README.assets/image-20220907194536884.png" alt="image-20220907194536884" style="zoom:67%;" />
 
 ### 2 识别无符号数的DFA

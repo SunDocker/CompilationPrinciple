@@ -408,7 +408,7 @@ LR分析算法：
 
 <img src="README.assets/image-20220924225217398.png" alt="image-20220924225217398" style="zoom:67%;" />
 
-#### 3.2 状态机与分析表
+#### 3.2 自动机与分析表构造思想
 
 <u>LR(0)自动机构造举例</u>：
 
@@ -422,12 +422,61 @@ LR分析算法：
 
 <img src="README.assets/image-20220924230210713.png" alt="image-20220924230210713" style="zoom:67%;" />
 
+> 这个自动机应该还没画完，但已经可以用来构造分析表了（如果想让机器自动分析的话，这个状态机还需要完善，3.3中会讲）
+
 <u>通过状态机构造分析表举例</u>：
 
 - 边上是非终结符的，对应GOTO表；边上是终结符的，对应ACTION表
+
 - 一行一行填表
+
 - **接收项目**是单独在一个状态里，对应**接收状态**，在表中与结束符$\$$形成表项$acc$
+
 - **待约**状态对应的表项都是$s_n$，**归约**状态对应的表项都是$r_n$，而且能归约的时候不管遇到什么输入都会执行归约的ACTION
 
-<u>分析表的构造算法</u>：
+  <img src="README.assets/image-20220926133436126.png" alt="image-20220926133436126" style="zoom:67%;" />
+
+#### 3.4 自动机与分析表构造算法
+
+<u>项目集闭包</u>：
+
+<img src="README.assets/image-20220926133055881.png" alt="image-20220926133055881" style="zoom:67%;" />
+
+<img src="README.assets/image-20220926133109207.png" alt="image-20220926133109207" style="zoom:67%;" />
+
+<u>后继项目集闭包</u>：
+
+<img src="README.assets/image-20220926133301575.png" alt="image-20220926133301575" style="zoom:60%;" />
+
+<u>构造LR(0)自动机的状态集</u>：
+
+<img src="README.assets/image-20220926134322599.png" alt="image-20220926134322599" style="zoom:67%;" />
+
+<u>LR(0)分析表构造算法</u>：
+
+<img src="README.assets/image-20220926134533579.png" alt="image-20220926134533579" style="zoom:67%;" />
+
+<u>LR(0)自动机的形式化定义</u>：
+
+<img src="README.assets/image-20220926135222817.png" alt="image-20220926135222817" style="zoom:67%;" />
+
+- LR(0)自动机的**冲突**问题：
+
+  - 移进/归约冲突：
+
+  <img src="README.assets/image-20220926135729793.png" alt="image-20220926135729793" style="zoom:57%;" />
+
+  <img src="README.assets/image-20220926135748648.png" alt="image-20220926135748648" style="zoom:50%;" />
+
+  - 归约/归约冲突：
+
+    <img src="README.assets/image-20220926135915707.png" alt="image-20220926135915707" style="zoom:67%;" />
+
+    <img src="README.assets/image-20220926135909484.png" alt="image-20220926135909484" style="zoom:67%;" /><img src="README.assets/image-20220926135849706.png" alt="image-20220926135849706" style="zoom:67%;" />
+
+如果LR(0)分析表中没有语法分析动作**冲突**，那么给定的文法就称为**<u>LR(0)文法</u>**
+
+不是所有CFG都能用LR(0)方法进行分析，也就是说，**<u>CFG不总是LR(0)文法</u>**
+
+> 如何解决冲突？SLR和LR(1)会给我们答案
 

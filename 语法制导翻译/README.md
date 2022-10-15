@@ -49,5 +49,77 @@
 
 <img src="README.assets/image-20221015113058972.png" alt="image-20221015113058972" style="zoom:67%;" />
 
+## 语法制导定义
+
+> <img src="README.assets/image-20221015143518917.png" alt="image-20221015143518917" style="zoom:67%;" />
+
+### 1 文法符号的属性
+
+<img src="README.assets/image-20221015143540034.png" alt="image-20221015143540034" style="zoom:67%;" />
+
+*综合属性：*
+
+- 非终结符的综合属性：
+
+  <img src="README.assets/image-20221015143607657.png" alt="image-20221015143607657" style="zoom:67%;" />
+
+  > <img src="README.assets/image-20221015143713279.png" alt="image-20221015143713279" style="zoom:67%;" />
+
+- 终结符的综合属性：
+
+  <img src="README.assets/image-20221015143720210.png" alt="image-20221015143720210" style="zoom:67%;" />
+
+  > 由词法分析器提供
+
+---
+
+*继承属性：*
+
+- 非终结符的继承属性：
+
+  <img src="README.assets/image-20221015143902398.png" alt="image-20221015143902398" style="zoom:67%;" />
+
+  > <img src="README.assets/image-20221015143916555.png" alt="image-20221015143916555" style="zoom:67%;" />
+
+- 终结符没有继承属性：
+
+  <img src="README.assets/image-20221015143941698.png" alt="image-20221015143941698" style="zoom:67%;" />
+
+---
+
+*举例：*
+
+- 带有综合属性的SDD
+
+  <img src="README.assets/image-20221015144407117.png" alt="image-20221015144407117" style="zoom:67%;" />
+
+  > 有时语义规则的目的是产生**副作用**，比如打印语句，语义规则会写成**过程调用**的形式，可以看成是在定义产生式左部的虚综合属性，因为用到了子结点的属性值；
+  >
+  > `digit.lexval`是词法分析器提供的词法值
+
+  <img src="README.assets/image-20221015144652338.png" alt="image-20221015144652338" style="zoom:67%;" />
+
+- 带有继承属性L.in的SDD
+
+  <img src="README.assets/image-20221015144919760.png" alt="image-20221015144919760" style="zoom:67%;" />
+
+  > 这里T的属性还是综合属性，L的属性是**继承属性**；
+  >
+  > `id.lexeme`是词法分析器提供的词法值，表示构成id的字符序列；
+  >
+  > 副作用`addtype`的功能是在符号表中为`id.lexeme`创建一条**记录**，并将其**类型**设置为`L.inh`，也可以看成虚综合属性
+
+  <img src="README.assets/image-20221015145329074.png" alt="image-20221015145329074" style="zoom:67%;" />
+
+- 
+
+  
+
+
+
+
+
+
+
 
 

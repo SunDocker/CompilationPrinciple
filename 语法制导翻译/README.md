@@ -41,6 +41,8 @@
 
   <img src="README.assets/image-20221015112931145.png" alt="image-20221015112931145" style="zoom:67%;" />
 
+  - 程序片段放在右部，但具体不一定放在哪个位置
+
   > 举例：
   >
   > <img src="README.assets/image-20221015112952494.png" alt="image-20221015112952494" style="zoom:67%;" />
@@ -166,15 +168,215 @@
 
 <img src="README.assets/image-20221015151228600.png" alt="image-20221015151228600" style="zoom:67%;" />
 
+#### 4.1 S-属性定义
 
+<img src="README.assets/image-20221015152700079.png" alt="image-20221015152700079" style="zoom:67%;" />
 
+- <img src="README.assets/image-20221015152741428.png" alt="image-20221015152741428" style="zoom:67%;" />
 
+> 举例：
+>
+> <img src="README.assets/image-20221015152731343.png" alt="image-20221015152731343" style="zoom:67%;" />
 
+#### 4.2 L-属性定义
 
+<img src="README.assets/image-20221015152828196.png" alt="image-20221015152828196" style="zoom:67%;" />
 
+<img src="README.assets/image-20221015152955548.png" alt="image-20221015152955548" style="zoom:67%;" />
 
+- 子结点不能依赖父结点的**综合属性**，不然可以造成循环依赖
+- <img src="README.assets/image-20221015153003317.png" alt="image-20221015153003317" style="zoom:67%;" />
 
+> 举例：
+>
+> <img src="README.assets/image-20221015153246116.png" alt="image-20221015153246116" style="zoom:60%;" />
+>
+> <img src="README.assets/image-20221015153533519.png" alt="image-20221015153533519" style="zoom:67%;" />
 
+## 语法制导翻译方案
+
+<img src="README.assets/image-20221015153641980.png" alt="image-20221015153641980" style="zoom:67%;" />
+
+> <img src="README.assets/image-20221015153650024.png" alt="image-20221015153650024" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015153720708.png" alt="image-20221015153720708" style="zoom:67%;" />
+
+### 1 将S-SDD转换为SDT
+
+<img src="README.assets/image-20221015153931875.png" alt="image-20221015153931875" style="zoom:67%;" />
+
+- 综合属性要在子结点分析完后才能计算，所以**计算综合属性的语义动作/程序片段**要放在产生式的**最右边**
+
+> <img src="README.assets/image-20221015153939546.png" alt="image-20221015153939546" style="zoom:67%;" />
+
+在LR过程中实现SDT，也就是**规约**时执行语义动作，**<u>在规约时计算属性值</u>**：
+
+<img src="README.assets/image-20221015154533127.png" alt="image-20221015154533127" style="zoom:67%;" />
+
+> 举例：
+>
+> <img src="README.assets/image-20221015154557628.png" alt="image-20221015154557628" style="zoom:67%;" />
+
+---
+
+*扩展LR语法分析栈：*
+
+<img src="README.assets/image-20221015154807058.png" alt="image-20221015154807058" style="zoom:67%;" />
+
+- 属性值要么是**<u>语义分析器规定的</u>**某些终结符的值，要么是**<u>在规约时计算</u>**出来的
+
+- 如果属性值的大小没有限制，或者数量过多没有限制，最好使用**指针**
+
+- **语义动作与栈操作**的对应关系举例：
+
+  <img src="README.assets/image-20221015155156738.png" alt="image-20221015155156738" style="zoom:67%;" />
+
+举例：
+
+<img src="README.assets/image-20221015155244306.png" alt="image-20221015155244306" style="zoom:67%;" />
+
+> 没有语义动作意思其实是**属性值不变**
+
+<img src="README.assets/image-20221015155400195.png" alt="image-20221015155400195" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015155406952.png" alt="image-20221015155406952" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015155415701.png" alt="image-20221015155415701" style="zoom:67%;" /><img src="README.assets/image-20221015155857954.png" alt="image-20221015155857954" style="zoom:67%;" /><img src="README.assets/image-20221015160354257.png" alt="image-20221015160354257" style="zoom:67%;" /><img src="README.assets/image-20221015160710425.png" alt="image-20221015160710425" style="zoom:67%;" /><img src="README.assets/image-20221015160718315.png" alt="image-20221015160718315" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015160931981.png" alt="image-20221015160931981" style="zoom:67%;" /><img src="README.assets/image-20221015160944539.png" alt="image-20221015160944539" style="zoom:67%;" /><img src="README.assets/image-20221015161137145.png" alt="image-20221015161137145" style="zoom:67%;" /><img src="README.assets/image-20221015161159438.png" alt="image-20221015161159438" style="zoom:67%;" /><img src="README.assets/image-20221015161242498.png" alt="image-20221015161242498" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015161257002.png" alt="image-20221015161257002" style="zoom:67%;" />
+
+### 2 将L-SDD转换为SDT
+
+<img src="README.assets/image-20221015161413025.png" alt="image-20221015161413025" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015161420177.png" alt="image-20221015161420177" style="zoom:67%;" />
+
+- ==继承属性会在即将出现时进行计算==，因为这个继承属性要么依赖父结点的继承属性，要么依赖左边符号的属性值，或者依赖于自己的属性
+
+> 举例：
+>
+> <img src="README.assets/image-20221015161629207.png" alt="image-20221015161629207" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015161922492.png" alt="image-20221015161922492" style="zoom:67%;" />
+
+> <img src="README.assets/image-20221015162341765.png" alt="image-20221015162341765" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015162411249.png" alt="image-20221015162411249" style="zoom:67%;" />
+
+后面就会介绍这些内容
+
+### 3 在非递归的预测分析过程中进行翻译
+
+*扩展语法分析栈：*
+
+<img src="README.assets/image-20221015163009194.png" alt="image-20221015163009194" style="zoom:67%;" />
+
+- 继承属性在即将出现时计算，存放在**与A平行的记录**中
+
+- 综合属性在子结点分析完后计算，要**新增一条综合记录**存放
+
+  > A对应的综合记录就在与A平行的记录之下
+
+- 还要增加一种**动作记录**，指向要执行的动作
+
+---
+
+*举例：*
+
+<img src="README.assets/image-20221015163548253.png" alt="image-20221015163548253" style="zoom:67%;" />
+
+- 先将语义动作起别名
+
+  <img src="README.assets/image-20221015163634232.png" alt="image-20221015163634232" style="zoom:67%;" />
+
+  - 这可以看成特殊的CFG，新增了一种符号，叫**动作符号**
+
+<img src="README.assets/image-20221015163845375.png" alt="image-20221015163845375" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015163910114.png" alt="image-20221015163910114" style="zoom:80%;" />
+
+1. T出栈，但Tsyn不能出栈（因为还没算出来），对应**产生式右部**进栈，对应的**综合记录和动作记录**也入栈
+
+   <img src="README.assets/image-20221015164128639.png" alt="image-20221015164128639" style="zoom:67%;" />
+
+2. F出栈，同样方式入栈
+
+3. digit遇到输入符，正常出栈并消耗输入，同时需要将综合属性值copy到后面的动作a~6~中
+
+   <img src="README.assets/image-20221015164636279.png" alt="image-20221015164636279" style="zoom:67%;" />
+
+4. digit出栈后，栈顶为动作记录，直接执行计算综合记录属性值，存放到后面的Fsyn综合记录中即可
+
+   > 之前F出栈的时候，Fsyn没出，而Fsyn又刚好在F下，所以这时会刚好在a~6~下
+
+   <img src="README.assets/image-20221015164936610.png" alt="image-20221015164936610" style="zoom:67%;" />
+
+5. Fsyn出栈之前要将**综合属性值传递**给后面的动作，后面计算时会用到
+
+   <img src="README.assets/image-20221015165018855.png" alt="image-20221015165018855" style="zoom:67%;" />
+
+6. a~1~正常进行计算，T’也可以按照产生式出栈，同时要传递综合属性值给动作a3
+
+   <img src="README.assets/image-20221015165308374.png" alt="image-20221015165308374" style="zoom:67%;" />
+
+   <img src="README.assets/image-20221015165422784.png" alt="image-20221015165422784" style="zoom:67%;" />
+
+7. *匹配，F推导，同样的出栈，传递属性值，计算属性值
+
+   <img src="README.assets/image-20221015165610554.png" alt="image-20221015165610554" style="zoom:67%;" />
+
+   <img src="README.assets/image-20221015165733564.png" alt="image-20221015165733564" style="zoom:70%;" />
+
+8. T’推导，传递，计算，copy，出栈
+
+   <img src="README.assets/image-20221015165841506.png" alt="image-20221015165841506" style="zoom:67%;" />
+
+   <img src="README.assets/image-20221015165909248.png" alt="image-20221015165909248" style="zoom:67%;" />
+
+   <img src="README.assets/image-20221015165920163.png" alt="image-20221015165920163" style="zoom:67%;" />
+
+总结传递属性值问题：
+
+<img src="README.assets/image-20221015170817534.png" alt="image-20221015170817534" style="zoom:67%;" />
+
+> 属性值的处理其实就是语义动作的处理，因为**属性值问题已经解耦交给语义动作**了
+
+**出栈时执行代码**的确定，也就是**传递属性值**问题：
+
+<img src="README.assets/image-20221015190832259.png" alt="image-20221015190832259" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015191254057.png" alt="image-20221015191254057" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015191416181.png" alt="image-20221015191416181" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015191426999.png" alt="image-20221015191426999" style="zoom:67%;" />
+
+- 注意这里位置的判断，也就是top的计算，产生式右部是**从右向左入栈**
+- 同一个符号在不同的产生式中，执行代码也可能是不同的
+
+### 4 在递归的预测分析过程中进行翻译
+
+将**非终结符对应的过程**扩展为函数，参数就是继承属性，返回值就是综合属性，同时**主函数**也要修改
+
+<img src="README.assets/image-20221015192735708.png" alt="image-20221015192735708" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015192757488.png" alt="image-20221015192757488" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015193649899.png" alt="image-20221015193649899" style="zoom:67%;" />
+
+主函数：
+
+<img src="README.assets/image-20221015192826471.png" alt="image-20221015192826471" style="zoom:67%;" />
+
+总结算法：
+
+<img src="README.assets/image-20221015192911245.png" alt="image-20221015192911245" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015193411560.png" alt="image-20221015193411560" style="zoom:67%;" />
+
+- 词法单元就是终结符+属性值
 
 
 

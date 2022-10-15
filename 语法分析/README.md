@@ -204,6 +204,8 @@ LL(1)文法可以构造预测分析表：
 
 <img src="README.assets/image-20220922151018261.png" alt="image-20220922151018261" style="zoom:67%;" />
 
+每个非终结符对应一条产生式，选择产生式的逻辑直接写在了 
+
 举例：
 
 <img src="README.assets/image-20220922151033547.png" alt="image-20220922151033547" style="zoom:67%;" />

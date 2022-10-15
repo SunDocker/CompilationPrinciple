@@ -111,9 +111,66 @@
 
   <img src="README.assets/image-20221015145329074.png" alt="image-20221015145329074" style="zoom:67%;" />
 
-- 
+### 2 属性文法
 
-  
+<img src="README.assets/image-20221015145449575.png" alt="image-20221015145449575" style="zoom:67%;" />
+
+> 举例：
+>
+> <img src="README.assets/image-20221015145457815.png" alt="image-20221015145457815" style="zoom:67%;" />
+
+### 3 SDD的求值顺序
+
+> <img src="README.assets/image-20221015145739860.png" alt="image-20221015145739860" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015145757602.png" alt="image-20221015145757602" style="zoom:80%;" />
+
+顺序的重点在于**依赖关系**
+
+---
+
+*依赖图：*
+
+<img src="README.assets/image-20221015145953330.png" alt="image-20221015145953330" style="zoom:67%;" />
+
+> 举例：
+>
+> <img src="README.assets/image-20221015150045477.png" alt="image-20221015150045477" style="zoom:67%;" />
+>
+> - 继承属性在左边，综合属性在右边
+> - 虚结点：之前据说的虚综合属性，图中的由自身属性和子id结点共同定义
+
+- 根据依赖图计算属性：拓扑排序
+
+  <img src="README.assets/image-20221015150438082.png" alt="image-20221015150438082" style="zoom:67%;" />
+
+  > 举例：
+  >
+  > <img src="README.assets/image-20221015150612260.png" alt="image-20221015150612260" style="zoom:67%;" />
+
+- 综合属性与继承属性的求值顺序规律：
+
+  <img src="README.assets/image-20221015150743683.png" alt="image-20221015150743683" style="zoom:67%;" />
+
+  > 举例：
+  >
+  > <img src="README.assets/image-20221015150838386.png" alt="image-20221015150838386" style="zoom:67%;" /><img src="README.assets/image-20221015150851132.png" alt="image-20221015150851132" style="zoom:67%;" />
+  >
+  > 如果图中没有**环**，那么至少存在一个**拓扑排序**
+
+### 4 SDD的属性定义
+
+<img src="README.assets/image-20221015151200291.png" alt="image-20221015151200291" style="zoom:60%;" />
+
+<img src="README.assets/image-20221015151214198.png" alt="image-20221015151214198" style="zoom:67%;" />
+
+<img src="README.assets/image-20221015151228600.png" alt="image-20221015151228600" style="zoom:67%;" />
+
+
+
+
+
+
 
 
 

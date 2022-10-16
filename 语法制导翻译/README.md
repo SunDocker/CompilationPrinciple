@@ -382,7 +382,41 @@
 
 <img src="README.assets/image-20221016140033099.png" alt="image-20221016140033099" style="zoom:67%;" />
 
-> S-属性定义语义动作都在右部最后，可以规约时执行，很适合自底向上。而L-属性定义的语义动作可以出现在右部中间，就需要修改文法才能制导翻译了
+> S-属性定义语义动作都在右部最后，可以规约时执行，很适合自底向上。而L-属性定义的语义动作可以出现在右部中间，就需要**修改文法**才能制导翻译了
 
+**标记非终结符**：
 
+<img src="README.assets/image-20221016181236287.png" alt="image-20221016181236287" style="zoom:67%;" />
+
+<img src="README.assets/image-20221016181248085.png" alt="image-20221016181248085" style="zoom:67%;" />
+
+- 注意体会上图中的修改方式，`inh`对应到了`i`，再对应到`syn`
+- <img src="README.assets/image-20221016181256123.png" alt="image-20221016181256123" style="zoom:80%;" />
+- <u>可以证明</u>：**如果一个文法是LL的，那么标记非终结符可以插入到产生式的任何位置，并且得到的文法是LR文法**
+
+<img src="README.assets/image-20221016181734750.png" alt="image-20221016181734750" style="zoom:80%;" />
+
+<img src="README.assets/image-20221016181743775.png" alt="image-20221016181743775" style="zoom:80%;" />
+
+<img src="README.assets/image-20221016182056488.png" alt="image-20221016182056488" style="zoom:67%;" /><img src="README.assets/image-20221016182105984.png" alt="image-20221016182105984" style="zoom:67%;" /><img src="README.assets/image-20221016182143836.png" alt="image-20221016182143836" style="zoom:67%;" /><img src="README.assets/image-20221016182254262.png" alt="image-20221016182254262" style="zoom:67%;" /><img src="README.assets/image-20221016182311935.png" alt="image-20221016182311935" style="zoom:67%;" />
+
+<img src="README.assets/image-20221016183531903.png" alt="image-20221016183531903" style="zoom:70%;" />
+
+- 这里很迷，就是`*FNT'`会被规约成`T'`，`T'`的继承属性其实就是`M`的`T'inh`，所以可以直接算出`N`
+- `T'.inh`是由产生式中紧靠`T'`左侧的标记非终结符对应的动作计算的，所以综合属性值就在当前栈顶
+
+<img src="README.assets/image-20221016184038910.png" alt="image-20221016184038910" style="zoom:67%;" /><img src="README.assets/image-20221016184056991.png" alt="image-20221016184056991" style="zoom:67%;" />
+
+执行代码：
+
+<img src="README.assets/image-20221016185430228.png" alt="image-20221016185430228" style="zoom:67%;" />
+
+- M只出现在F的右侧，所以规约出M时F一定在栈顶，一定能计算M的属性值，不然就出错了，N相对于F也是如此
+- N还需要T’的继承属性，T’的继承属性是M计算的，M一定会出现
+
+> 讲得乱七八糟的
+
+总结：
+
+<img src="README.assets/image-20221016185612042.png" alt="image-20221016185612042" style="zoom:67%;" />
 

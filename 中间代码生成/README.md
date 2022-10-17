@@ -191,9 +191,31 @@
 
 ## 2 简单赋值语句的翻译
 
+主要任务：
 
+<img src="README.assets/image-20221017173257482.png" alt="image-20221017173257482" style="zoom:67%;" />
 
+-   表达式的值需要通过三地址码计算
 
+<img src="README.assets/image-20221017173307598.png" alt="image-20221017173307598" style="zoom:70%;" />
+
+三地址码举例：
+
+<img src="README.assets/image-20221017173355562.png" alt="image-20221017173355562" style="zoom:67%;" />
+
+### 2.1 赋值语句的SDT
+
+<img src="README.assets/image-20221017173557747.png" alt="image-20221017173557747" style="zoom:67%;" />
+
+-   `code`用于记录三地址码，`addr`用于记录表达式值的存放地址
+
+-   表达式值的存放地址往往就是符号表中记录的地址，通过`lookup`就可以获得
+
+-   不涉及计算的产生式三地址码属性`code`为空即可
+
+-   涉及到计算，有新值产生，就需要`newtemp`存放值，同时要生成三地址码，拼接`code`
+
+    >   `||`代表连接运算
 
 
 

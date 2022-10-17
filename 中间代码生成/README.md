@@ -209,13 +209,56 @@
 
 -   `code`用于记录三地址码，`addr`用于记录表达式值的存放地址
 
--   表达式值的存放地址往往就是符号表中记录的地址，通过`lookup`就可以获得
+-   表达式值的存放地址往往就是符号表中记录的地址，通过`lookup`就可以获得。一般包括两类：
+
+    -   源操作数对应的$E\rarr id$
+    -   目标操作数对应的$S\rarr id=E$
 
 -   不涉及计算的产生式三地址码属性`code`为空即可
 
--   涉及到计算，有新值产生，就需要`newtemp`存放值，同时要生成三地址码，拼接`code`
+-   涉及到计算，有新值产生，就需要`newtemp`存放值，同时要通过`gen(code)`生成三地址码，拼接`code`
 
     >   `||`代表连接运算
 
+    -   这里虽然叫做`temp`，但还是要放在三地址码中，只是逻辑上起“临时”的作用
 
+增量翻译：
+
+<img src="README.assets/image-20221017185122800.png" alt="image-20221017185122800" style="zoom:60%;" />
+
+-   增量翻译中不需要再用`||`拼接三地址码，直接让`gen`函数生成三地址指令再拼接即可
+
+举例解释此SDT：
+
+1.   不断移进，直到第一次归约
+
+     <img src="README.assets/image-20221017185829798.png" alt="image-20221017185829798" style="zoom:67%;" />
+
+2.   第一次归约时，直接将`a`给到非终结符E的属性，这里a就直接代表地址了。然后继续归约
+
+     <img src="README.assets/image-20221017190127294.png" alt="image-20221017190127294" style="zoom:67%;" />
+
+3.   第二次归约时，也直接将`b`给到非终结符E的属性。然后用第二条产生式归约，生成一条三地址指令，`newtemp()`的结果由`t1`体现
+
+     <img src="README.assets/image-20221017190323924.png" alt="image-20221017190323924" style="zoom:67%;" />
+
+4.   第5条产生式归约
+
+     <img src="README.assets/image-20221017190630857.png" alt="image-20221017190630857" style="zoom:67%;" />
+
+5.   标识符归约、乘法运算归约，同样调用`newtemp`
+
+     <img src="README.assets/image-20221017190845633.png" alt="image-20221017190845633" style="zoom:67%;" />
+
+     <img src="README.assets/image-20221017190858982.png" alt="image-20221017190858982" style="zoom:67%;" />
+
+6.   移入至规约状态，第一条产式规约
+
+     <img src="README.assets/image-20221017191007427.png" alt="image-20221017191007427" style="zoom:67%;" />
+
+     <img src="README.assets/image-20221017191510731.png" alt="image-20221017191510731" style="zoom:67%;" />
+
+     这样就生成了需要的**三地址码**
+
+### 2.2 带数组引用的翻译
 

@@ -203,6 +203,8 @@
 
 <img src="README.assets/image-20221017173355562.png" alt="image-20221017173355562" style="zoom:67%;" />
 
+> 就是要通过SDT，解析源程序片段，生成这样的三地址码（中间表示形式）
+
 ### 2.1 赋值语句的SDT
 
 <img src="README.assets/image-20221017173557747.png" alt="image-20221017173557747" style="zoom:67%;" />
@@ -220,13 +222,13 @@
 
     >   `||`代表连接运算
 
-    -   这里虽然叫做`temp`，但还是要放在三地址码中，只是逻辑上起“临时”的作用
+    -   这里虽然叫做`temp`，但还是要放在**三地址码**中，只是逻辑上起“临时”的作用
 
 增量翻译：
 
 <img src="README.assets/image-20221017185122800.png" alt="image-20221017185122800" style="zoom:60%;" />
 
--   增量翻译中不需要再用`||`拼接三地址码，直接让`gen`函数生成三地址指令再拼接即可
+-   增量翻译中不需要再用`||`拼接三地址码，直接让`gen`函数**生成三地址指令再拼接**即可
 
 举例解释此SDT：
 
@@ -261,4 +263,160 @@
      这样就生成了需要的**三地址码**
 
 ### 2.2 带数组引用的翻译
+
+*带数组引用的基本文法：*
+
+<img src="README.assets/image-20221020193904790.png" alt="image-20221020193904790" style="zoom:67%;" />
+
+重点：**数组寻址**问题
+
+---
+
+*数组元素寻址：*
+
+<img src="README.assets/image-20221020194013760.png" alt="image-20221020194013760" style="zoom:60%;" />
+
+举例：
+
+<img src="README.assets/image-20221020194318767.png" alt="image-20221020194318767" style="zoom:67%;" />
+
+---
+
+*翻译目标：*
+
+<img src="README.assets/image-20221020194422669.png" alt="image-20221020194422669" style="zoom:67%;" />
+
+<img src="README.assets/image-20221020194436884.png" alt="image-20221020194436884" style="zoom:67%;" />
+
+- 元素寻址的计算过程也是目标三地址码的一部分
+
+---
+
+*数组引用的SDT：*
+
+重点：将地址计算公式与数组引用的文法关联起来
+
+<img src="README.assets/image-20221020194812627.png" alt="image-20221020194812627" style="zoom:67%;" />
+
+<img src="README.assets/image-20221020194824518.png" alt="image-20221020194824518" style="zoom:67%;" />
+
+举例：
+
+<img src="README.assets/image-20221020194837076.png" alt="image-20221020194837076" style="zoom:67%;" />
+
+<img src="README.assets/image-20221020195159057.png" alt="image-20221020195159057" style="zoom:67%;" />
+
+- 最初`type`函数通过查询符号表可以得知a的类型，然后`type`属性的计算就可以通过**子结点**得到
+- `offset`是偏移地址，也会延续子结点不断计算
+- `array`是基地址，直接从子结点传上来
+
+数组引用的SDT：
+
+<img src="README.assets/image-20221020200123704.png" alt="image-20221020200123704" style="zoom:67%;" />
+
+- `.elem`就相当于向深取一层数组元素类型了
+- 在计算深层次偏移量时，有两部分组成，一部分是子结点的偏移量，另一部分是这里用宽度新计算的量
+
+## 3 控制流语句及其SDT
+
+> 这个小节的结构可用于总结
+
+### 3.1 控制流语句的基本文法和代码结构
+
+*基本文法：*
+
+<img src="README.assets/image-20221021084646248.png" alt="image-20221021084646248" style="zoom:67%;" />
+
+- 赋值
+- 分支
+- 循环
+
+*代码结构：*
+
+<img src="README.assets/image-20221021085014207.png" alt="image-20221021085014207" style="zoom:67%;" />
+
+<img src="README.assets/image-20221021085201159.png" alt="image-20221021085201159" style="zoom:67%;" />
+
+- 继承属性：
+
+  - `S.next`是整个语句块的下一条指令，所以由`S`推导出的`S`都会继承`next`，因为它们都属于整个语句块
+
+  - `B.true`和`B.false`其实就是两种不同的跳转
+
+    <img src="README.assets/image-20221021085322626.png" alt="image-20221021085322626" style="zoom:67%;" />
+
+### 3.2 控制流语句的SDT
+
+<img src="README.assets/image-20221021085814465.png" alt="image-20221021085814465" style="zoom:67%;" />
+
+- `next`作为继承属性，保留的是地址，对地址的赋值往往在之后进行
+  - `next`属性的赋值时机值得注意
+- `label`函数的作用就是将**下一条指令标号**给到出参
+
+> 赋值语句的翻译方案已经讲过，接下来重点讲分支和循环语句
+
+<img src="README.assets/image-20221021090101977.png" alt="image-20221021090101977" style="zoom:67%;" /><img src="README.assets/image-20221021090127374.png" alt="image-20221021090127374" style="zoom:67%;" />
+
+- 注意`next`的继承
+- 三地址码的生成
+
+<img src="README.assets/image-20221021090711502.png" alt="image-20221021090711502" style="zoom:67%;" />
+
+- 这里需要不断循环，所以用`begin`继承属性记录第一条语句标号。这里所说的第一条语句其实是布尔表达式的判断，所以`S.next`和`B.true`不一样
+
+## 4 布尔表达式及其SDT
+
+### 4.1 基本文法和代码结构
+
+<img src="README.assets/image-20221021091224915.png" alt="image-20221021091224915" style="zoom:67%;" />
+
+<img src="README.assets/image-20221021091305054.png" alt="image-20221021091305054" style="zoom:77%;" />
+
+<img src="README.assets/image-20221021091314967.png" alt="image-20221021091314967" style="zoom:67%;" />
+
+### 4.2 SDT
+
+<img src="README.assets/image-20221021091623362.png" alt="image-20221021091623362" style="zoom:67%;" />
+
+- 认为布尔表达式是表达式通过`relop`的连接
+
+<img src="README.assets/image-20221021091930741.png" alt="image-20221021091930741" style="zoom:67%;" />
+
+- 这里还是注意之前的问题，`B1.false`要存的是下一条代码标号，而不是存布尔表达式，所以要等到后面赋值，也就是`B2`之前
+
+<img src="README.assets/image-20221021092115213.png" alt="image-20221021092115213" style="zoom:67%;" />
+
+### 4.3 控制流语句翻译实例
+
+<img src="README.assets/image-20221021092706694.png" alt="image-20221021092706694" style="zoom:67%;" />
+
+- 该文法不是LL(1)的
+- 该文法虽然是LR的，但右部内嵌了语义动作
+
+:star:SDT的通用实现方法：
+
+<img src="README.assets/image-20221021092855503.png" alt="image-20221021092855503" style="zoom:67%;" />
+
+语法分析树：
+
+<img src="README.assets/image-20221021092949851.png" alt="image-20221021092949851" style="zoom:67%;" />
+
+执行语义动作：
+
+<img src="README.assets/image-20221021093319120.png" alt="image-20221021093319120" style="zoom:67%;" />
+
+- 对于整个语句块，先记录下一条语句标号，当然这里只执行了`S.next=newlabel()`，后面的`label(S.next)`要等整个语句分析完才行
+
+<img src="README.assets/image-20221021093949388.png" alt="image-20221021093949388" style="zoom:67%;" />
+
+- 第一条布尔表达式，主要生成语句的跳转逻辑
+- 循环体内部的整体，先确定整体**下一条语句**的位置，**继承**过来的
+
+<img src="README.assets/image-20221021095148760.png" alt="image-20221021095148760" style="zoom:67%;" />
+
+- 这里对于布尔表达式和算术表达式的执行动作省略了，可以看之前几节
+
+三地址码的分析：
+
+<img src="README.assets/image-20221021095258870.png" alt="image-20221021095258870" style="zoom:67%;" />
 

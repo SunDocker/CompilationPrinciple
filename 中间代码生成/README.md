@@ -525,3 +525,61 @@
 
 <img src="README.assets/image-20221021153248062.png" alt="image-20221021153248062" style="zoom:67%;" />
 
+## 6 switch语句的翻译
+
+### 6.1 代码结构和基本文法
+
+*直观的代码结构：*
+
+<img src="README.assets/image-20221021155508921.png" alt="image-20221021155508921" style="zoom:67%;" />
+
+*集中分支测试的代码结构：*
+
+<img src="README.assets/image-20221021160328250.png" alt="image-20221021160328250" style="zoom:67%;" />
+
+### 6.2 SDT
+
+*直观的翻译方式：*
+
+<img src="README.assets/image-20221021160018897.png" alt="image-20221021160018897" style="zoom:67%;" />
+
+-   重点：条件跳转指令的生成、对之前标号的填充
+
+*将分支测试代码集中：*
+
+<img src="README.assets/image-20221021161220490.png" alt="image-20221021161220490" style="zoom:67%;" />
+
+-   这样先读完所有的`case`，再集中生成需要的判断，这也就是为什么有的语言中`switch case`会执行到底
+
+对条件测试指令特殊处理：增加`case`指令
+
+## 7 过程调用语句的翻译
+
+### 7.1 文法
+
+<img src="README.assets/image-20221021161823470.png" alt="image-20221021161823470" style="zoom:67%;" />
+
+### 7.2 代码结构
+
+<img src="README.assets/image-20221021162155188.png" alt="image-20221021162155188" style="zoom:67%;" />
+
+-   主体是参数对应的表达式，其值存放于`addr`属性中
+-   还需要`param`指令，将表达式的值设置为**实参**
+-   上面列出了两种结构。`param`集中的形式还需要一种数据结构来存放`addr`属性，从而更好地生成`param`序列
+
+<img src="README.assets/image-20221021162406640.png" alt="image-20221021162406640" style="zoom:67%;" />
+
+### 7.3 SDT
+
+<img src="README.assets/image-20221021163000726.png" alt="image-20221021163000726" style="zoom:67%;" />
+
+-   这里n代表参数个数
+
+翻译举例：
+
+<img src="README.assets/image-20221021163132353.png" alt="image-20221021163132353" style="zoom:67%;" />
+
+
+
+
+

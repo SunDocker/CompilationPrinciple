@@ -2,6 +2,8 @@
 
 >   各类语句的翻译，声明、赋值、控制、过程调用......
 
+> 为什么产生式能代表那么多含义？这是由产生式的**应用场景**决定的。在编译原理中，要能给各条产生式赋予合理的**应用**意义
+
 ## 1 声明语句的翻译
 
 主要任务：
@@ -419,4 +421,107 @@
 三地址码的分析：
 
 <img src="README.assets/image-20221021095258870.png" alt="image-20221021095258870" style="zoom:67%;" />
+
+## 5 回填(Backpatching)
+
+> 回填什么？回填跳转指令要跳去的标号
+>
+> 其实就是从归约的角度来看，将标号转变为综合属性
+
+将由**跳转指令生成的列表**通过**综合属性**进行传递（就不用`next true false`这种**继承属性**了）
+
+基本思想：
+
+<img src="README.assets/image-20221021105144290.png" alt="image-20221021105144290" style="zoom:67%;" />
+
+### 5.1 布尔表达式的回填
+
+*布尔符号B新增的综合属性：*
+
+<img src="README.assets/image-20221021105258573.png" alt="image-20221021105258573" style="zoom:67%;" />
+
+- `truelist`的意思是，那些`goto`要跳到这个真出口来，至于真出口是多少，需要归约之后再回填
+
+*新增的函数：*
+
+<img src="README.assets/image-20221021105614453.png" alt="image-20221021105614453" style="zoom:67%;" />
+
+- 这里的`i`是跳转指令，是`goto ...`整体，而不是要`goto`到的目标
+
+*布尔表达式回填的SDT：*
+
+<img src="README.assets/image-20221021110414996.png" alt="image-20221021110414996" style="zoom:67%;" />
+
+- `nextquad`是即将生成的下一条指令的标号，指的就是`if E.addr relop E.addr goto _`，这里`makelist(nextquad)`直接将下一条指令放到了`list`中，因为下一条指令要跳转到的地方是需要回填的
+
+<img src="README.assets/image-20221021110429063.png" alt="image-20221021110429063" style="zoom:67%;" /><img src="README.assets/image-20221021110453721.png" alt="image-20221021110453721" style="zoom:67%;" />
+
+<img src="README.assets/image-20221021110518075.png" alt="image-20221021110518075" style="zoom:67%;" /><img src="README.assets/image-20221021110524484.png" alt="image-20221021110524484" style="zoom:67%;" />
+
+<img src="README.assets/image-20221021111241610.png" alt="image-20221021111241610" style="zoom:67%;" />
+
+- `M`是为了记下`B2`第一条指令的标号，从而实现之后对`B1`的回填，也就是在归约完成之后的回填
+
+<img src="README.assets/image-20221021111707941.png" alt="image-20221021111707941" style="zoom:67%;" />
+
+*举例：*
+
+<img src="README.assets/image-20221021112043639.png" alt="image-20221021112043639" style="zoom:80%;" />
+
+<img src="README.assets/image-20221021112050555.png" alt="image-20221021112050555" style="zoom:67%;" />
+
+<img src="README.assets/image-20221021112257388.png" alt="image-20221021112257388" style="zoom:67%;" />
+
+- 注意，`and`的优先级更高，所以接下来要移入`and`
+
+<img src="README.assets/image-20221021112437312.png" alt="image-20221021112437312" style="zoom:67%;" />
+
+- 注意这里的`backpatch`和`merge`
+
+<img src="README.assets/image-20221021112526413.png" alt="image-20221021112526413" style="zoom:67%;" />
+
+- 剩下的一对真出口和假出口需要等B归约之后确定了再回填
+
+### 5.2 控制流语句的回填
+
+*文法与综合属性：*
+
+<img src="README.assets/image-20221021143330019.png" alt="image-20221021143330019" style="zoom:67%;" />
+
+- `S.nextlist`中的`goto`最终都要跳到`S`的下一条指令，那`S`的下一条指令具体是什么，要等之后求出来再回填
+
+---
+
+*SDT：*
+
+<img src="README.assets/image-20221021143733632.png" alt="image-20221021143733632" style="zoom:67%;" />
+
+- 要用`S1`的第一条指令回填`B.truelist`，所以需要用`M`记录
+
+<img src="README.assets/image-20221021145010861.png" alt="image-20221021145010861" style="zoom:67%;" />
+
+- `M1 M2`用来回填`truelist`
+- `N`用来生成跳转指令
+
+<img src="README.assets/image-20221021150622771.png" alt="image-20221021150622771" style="zoom:67%;" />
+
+- 如果分不清谁该赋值给谁，可以想想这是综合属性还是继承属性
+
+  > 其实学到这里也更能理解“综合”的含义了，就是要综合所有子结点的信息，才能完整计算出来的
+
+- `S S1`作为代表语句块的非终结符，本身就有`nextlist`属性，这里表面上看不出`S1.nextlist`的作用，但其实有用，比如，如果`S1`本身是一个条件判断语句块，其中的语句就需要用到`S1.nextlist`，直接跳转回`B.code`，就不用再走到下面`goto`再去跳转了。当然，也有可能完全用不到`S1.nextlist`，这时就直接为空`nil`
+
+<img src="README.assets/image-20221021150655832.png" alt="image-20221021150655832" style="zoom:67%;" />
+
+<img src="README.assets/image-20221021150808436.png" alt="image-20221021150808436" style="zoom:67%;" />
+
+- 如果已经明确了是赋值语句，直接让其`nextlist`为空即可，因为`S`之中没有必须要跳转到`S.next`的语句，只是顺序执行
+
+*翻译举例：*
+
+<img src="README.assets/image-20221021151936589.png" alt="image-20221021151936589" style="zoom:67%;" />
+
+<img src="README.assets/image-20221021153132120.png" alt="image-20221021153132120" style="zoom:67%;" />
+
+<img src="README.assets/image-20221021153248062.png" alt="image-20221021153248062" style="zoom:67%;" />
 

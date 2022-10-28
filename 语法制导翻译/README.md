@@ -101,7 +101,8 @@
 
   <img src="README.assets/image-20221015144652338.png" alt="image-20221015144652338" style="zoom:67%;" />
 
-- 带有继承属性L.in的SDD
+
+- 带有继承属性L.in的`SDD`
 
   <img src="README.assets/image-20221015144919760.png" alt="image-20221015144919760" style="zoom:67%;" />
 

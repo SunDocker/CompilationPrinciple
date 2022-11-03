@@ -34,7 +34,7 @@
 
 <img src="README.assets/image-20221031085427136.png" alt="image-20221031085427136" style="zoom:67%;" />
 
-> LTA：Less Than Zero
+> LTZ：Less Than Zero
 
 ### 3 寻址模式
 

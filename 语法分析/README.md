@@ -274,6 +274,26 @@ LL(1)文法可以构造预测分析表：
 
 ## 自底向上分析
 
+### 0 补充
+
+#### 0.1 系统框架与问题
+
+
+
+#### 0.2 两类思想
+
+优先法
+
+优先级：归约的优先级，
+
+-   我比你后归约（优先级比你低），我就要让你移入，
+-   如果我们要同时归约（优先级相等），我还得让你移入才能归约
+-   我比你先归约（优先级比低高），我就直接归约了
+
+
+
+
+
 ### 1 概述
 
 #### 1.1 移入-归约分析简介
@@ -753,3 +773,67 @@ LALR分析法可能会作多余的**归约动作**，但绝不会作错误的**�
 <img src="README.assets/image-20220927153115236.png" alt="image-20220927153115236" style="zoom:80%;" />
 
 ### 7 LR对二义性文法的分析与错误处理
+
+#### 7.1 二义性文法的特点
+
+<img src="README.assets/image-20221109220648911.png" alt="image-20221109220648911" style="zoom:67%;" />
+
+>   LR的指的是LR(0)的
+
+#### 7.2 LR中二义性的消除
+
+例1：算术表达式文法
+
+<img src="README.assets/image-20221109221046437.png" alt="image-20221109221046437" style="zoom:67%;" />
+
+使用优先级和结合性解决二义性
+
+-   对于7：如果是乘号就移进（因为乘法优先级更高），如果是加号就要归约（因为加法是左结合的）
+-   对于8：一定归约，因为乘法优先级高
+
+<img src="README.assets/image-20221109221106020.png" alt="image-20221109221106020" style="zoom:67%;" />
+
+
+
+例2：if语句文法
+
+<img src="README.assets/image-20221109221158182.png" alt="image-20221109221158182" style="zoom:67%;" />
+
+（正则定义）
+
+<img src="README.assets/image-20221109221220613.png" alt="image-20221109221220613" style="zoom:67%;" />
+
+-   通过引入**就近匹配原则**消除二义性
+
+<img src="README.assets/image-20221109221409621.png" alt="image-20221109221409621" style="zoom:67%;" />
+
+#### 7.3 二义性文法的使用
+
+<img src="README.assets/image-20221109221429806.png" alt="image-20221109221429806" style="zoom:67%;" />
+
+#### 7.4 语法错误的检测
+
+<img src="README.assets/image-20221109221503894.png" alt="image-20221109221503894" style="zoom:67%;" />
+
+#### 7.5 错误恢复策略
+
+<img src="README.assets/image-20221109221523737.png" alt="image-20221109221523737" style="zoom:67%;" />
+
+<img src="README.assets/image-20221109221945381.png" alt="image-20221109221945381" style="zoom:67%;" />
+
+-   没听懂，需要补充
+
+
+
+<img src="README.assets/image-20221109221958954.png" alt="image-20221109221958954" style="zoom:67%;" />
+
+
+
+举例：
+
+<img src="README.assets/image-20221109222403169.png" alt="image-20221109222403169" style="zoom:67%;" />
+
+<img src="README.assets/image-20221109222421420.png" alt="image-20221109222421420" style="zoom:67%;" />
+
+-   思想就是计算出**缺什么**，然后假设不缺，移入到对应状态，再继续分析
+-   如果归约状态下出错了可以直接规约
